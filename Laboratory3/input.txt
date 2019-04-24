@@ -1,0 +1,9 @@
+101Y Yaroslavl Moskva 10:00 13:00 900
+104Y Moskva Yaroslavl 14:00 17:00 1000
+103Y Polyani Kazan 14:00 17:00 1000
+107Y Polyani Yaroslavl 14:00 17:00 1000
+10Y Polyani Kazan 17:00 20:00 1500
+11Y Polyani Moskva 12:00 20:00 2000
+13Y Polyani Kizner 19:00 20:00 700
+108Y Polyani Kazan 14:00 17:00 1000
+109Y Moskva Kazan 14:00 17:00 1000
