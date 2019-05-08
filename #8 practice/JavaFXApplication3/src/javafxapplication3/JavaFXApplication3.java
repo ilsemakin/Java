@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -143,8 +144,10 @@ public class JavaFXApplication3 extends Application {
         addAge.setPromptText("Age");
 
         TextField delete = new TextField();
-        delete.setMaxWidth(ageCol.getPrefWidth());
         delete.setPromptText("#");
+        
+        TextField sort = new TextField();
+        sort.setPromptText("nick");
 
         final Button addButton = new Button("Add");
         addButton.setOnAction((ActionEvent e) -> {
@@ -162,14 +165,25 @@ public class JavaFXApplication3 extends Application {
             data.remove(Integer.parseInt(delete.getText()));
             delete.clear();
         });
+        
+        final Button sortButton = new Button("Sort");
+        sortButton.setOnAction((ActionEvent e) -> {
+            ArrayList arrayList = new ArrayList<>();
+            data.stream().filter(s -> s.getNickname().equals(sort.getText()));
+            data.clear();
+            sort.clear();
+        });
 
         HBox hb1 = new HBox();
         hb1.getChildren().addAll(addNickname, addName, addAge, addButton);
 
         HBox hb2 = new HBox();
         hb2.getChildren().addAll(delete, deleteButton);
+        
+        HBox hb3 = new HBox();
+        hb3.getChildren().addAll(sort, sortButton);
 
-        vb.getChildren().addAll(hb1, hb2);
+        vb.getChildren().addAll(hb1, hb2, hb3);
         vb.setSpacing(5);
     }
 
