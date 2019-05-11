@@ -1,4 +1,4 @@
-package javafxapplication3;
+package javafxapplication8;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
  * @author Semakin
  */
 public class Organization {
+
     private SimpleStringProperty nickname;
     private SimpleStringProperty name;
     private SimpleIntegerProperty age;
@@ -46,5 +47,4 @@ public class Organization {
     public String toString() {
         return nickname.get() + "," + name.get() + "," + age.get();
     }
-    
 }

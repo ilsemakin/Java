@@ -1,43 +1,40 @@
-package javafxapplication3;
+package javafxapplication8;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.collections.FXCollections;
 import javafx.scene.control.TableColumn;
+import javafx.application.Application;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
+import java.io.FileNotFoundException;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.event.EventHandler;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.event.ActionEvent;
 import javafx.scene.text.Font;
+import javafx.geometry.Insets;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.io.FileWriter;
+import java.util.Scanner;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.converter.IntegerStringConverter;
+import java.io.File;
 
 /**
  *
  * @author Semakin
  */
-public class JavaFXApplication3 extends Application {
+public class JavaFXApplication8 extends Application {
 
     private TableView<Organization> table = new TableView<Organization>();
     private TableColumn nicknameCol = new TableColumn("Nickname");
@@ -73,7 +70,8 @@ public class JavaFXApplication3 extends Application {
                 bw.write(pet.toString() + "\n");
             }
             bw.close();
-        } catch (IOException ex) {}
+        } catch (IOException ex) {
+        }
     }
 
     private void createTable() {
@@ -145,9 +143,9 @@ public class JavaFXApplication3 extends Application {
 
         TextField delete = new TextField();
         delete.setPromptText("#");
-        
+
         TextField sort = new TextField();
-        sort.setPromptText("nick");
+        sort.setPromptText("Nick");
 
         final Button addButton = new Button("Add");
         addButton.setOnAction((ActionEvent e) -> {
@@ -155,6 +153,7 @@ public class JavaFXApplication3 extends Application {
                     addNickname.getText(),
                     addName.getText(),
                     Integer.parseInt(addAge.getText())));
+
             addNickname.clear();
             addName.clear();
             addAge.clear();
@@ -165,26 +164,41 @@ public class JavaFXApplication3 extends Application {
             data.remove(Integer.parseInt(delete.getText()));
             delete.clear();
         });
-        
+
+        final Button loadButton = new Button("Load");
+        loadButton.setOnAction((ActionEvent e) -> {
+            data.clear();
+            readFile();
+        });
+
         final Button sortButton = new Button("Sort");
         sortButton.setOnAction((ActionEvent e) -> {
-            ArrayList arrayList = new ArrayList<>();
-            data.stream().filter(s -> s.getNickname().equals(sort.getText()));
+            ArrayList<Organization> arrayList = new ArrayList<>();
+            data.stream().filter(s -> s.getNickname().equals(sort.getText())).forEach(s -> arrayList.add(s));
+
             data.clear();
+            for (Organization o : arrayList) {
+                data.add(o);
+            }
+
             sort.clear();
         });
 
         HBox hb1 = new HBox();
         hb1.getChildren().addAll(addNickname, addName, addAge, addButton);
 
+        HBox tmp = new HBox();
+        tmp.getChildren().addAll(delete, deleteButton);
+
         HBox hb2 = new HBox();
-        hb2.getChildren().addAll(delete, deleteButton);
-        
+        hb2.getChildren().addAll(tmp, loadButton);
+        hb2.setSpacing(36);
+
         HBox hb3 = new HBox();
         hb3.getChildren().addAll(sort, sortButton);
 
         vb.getChildren().addAll(hb1, hb2, hb3);
-        vb.setSpacing(5);
+        vb.setSpacing(15);
     }
 
     public static void main(String[] args) {
@@ -195,8 +209,8 @@ public class JavaFXApplication3 extends Application {
     public void start(Stage stage) {
         Scene scene = new Scene(new Group());
         stage.setTitle("Table View Sample");
-        stage.setWidth(450);
-        stage.setHeight(550);
+        stage.setWidth(600);
+        stage.setHeight(600);
 
         createTable();
         readFile();
