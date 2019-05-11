@@ -1,6 +1,7 @@
 package dialogwindows;
 
 public class Student {
+
     private String name;
     private int s_mat;
     private int s_pykh;
@@ -12,8 +13,8 @@ public class Student {
         this.s_pykh = Integer.parseInt(s_pykh);
         this.s_och = Integer.parseInt(s_och);
     }
-    
-    public String getName(){
+
+    public String getName() {
         return name;
     }
 
