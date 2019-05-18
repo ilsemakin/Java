@@ -7,6 +7,7 @@ public class JavaFXApplication4 extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        Controller.read();
         Controller.init(primaryStage);
     }
 
