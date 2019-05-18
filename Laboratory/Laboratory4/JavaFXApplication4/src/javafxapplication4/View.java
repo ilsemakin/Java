@@ -58,8 +58,8 @@ public class View {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
-    public static void message(){
+
+    public static void message() {
         System.out.println("Логин или пароль введён неверно");
     }
 }

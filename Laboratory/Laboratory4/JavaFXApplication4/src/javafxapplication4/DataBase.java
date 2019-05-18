@@ -23,9 +23,9 @@ public class DataBase {
     }
 
     public static void show() {
-        for (User user : users) {
+        users.forEach((user) -> {
             System.out.println(user);
-        }
+        });
     }
 
     private static boolean checkLogin(User userCheck) {
