@@ -1,4 +1,4 @@
-package javafxapplication4;
+package Model;
 
 import java.util.ArrayList;
 

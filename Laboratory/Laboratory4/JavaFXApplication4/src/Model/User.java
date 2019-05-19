@@ -1,4 +1,4 @@
-package javafxapplication4;
+package Model;
 
 public class User {
 
@@ -54,5 +54,4 @@ public class User {
 
         return str;
     }
-
 }

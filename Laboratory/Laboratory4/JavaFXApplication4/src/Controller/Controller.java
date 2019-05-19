@@ -1,12 +1,15 @@
-package javafxapplication4;
+package Controller;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 import javafx.stage.Stage;
+import java.util.Scanner;
+import Model.DataBase;
+import java.io.File;
+import Model.User;
+import View.View;
 
 public class Controller {
-    
+
     public static void read() {
         File input = new File("Accounts.txt");
         User user;
@@ -33,9 +36,9 @@ public class Controller {
     }
 
     public static void checkUser(String login, String password) {
-        if(DataBase.find(login, password) == null)
+        if (DataBase.find(login, password) == null) {
             View.message();
-            
+        }
     }
 
     public static void init(Stage primaryStage) {
