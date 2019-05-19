@@ -69,6 +69,10 @@ public class View {
         primaryStage.show();
     }
 
+    public static void showUserStage() {
+        
+    }
+
     public static void registration(Stage primaryStage) {
         VBox vbox = new VBox();
         vbox.setSpacing(10);
@@ -137,15 +141,19 @@ public class View {
         /*--------------------------------------------------------------------*/
 
         buttonAccount.setOnAction((ActionEvent e) -> {
-            if (Controller.checkEmail(fieldEmail.getText())) {
-                if (Controller.checkLogin(fieldLogin.getText(), (Stage) buttonAccount.getScene().getWindow())) {
-                    if (Controller.checkPassword(fieldPasswordOne.getText(), (Stage) buttonAccount.getScene().getWindow())) {
-                        if (Controller.checkPasswords(fieldPasswordOne.getText(), fieldPasswordTwo.getText())) {
-                            Controller.addUser(fieldName.getText(), fieldSurname.getText(), fieldEmail.getText(),
-                                    fieldLogin.getText(), fieldPasswordTwo.getText());
+            if (Controller.checkFileds(fieldName.getText(), fieldSurname.getText(), fieldEmail.getText(),
+                    fieldLogin.getText(), fieldPasswordOne.getText(), fieldPasswordTwo.getText())) {
 
-                            Stage stage = (Stage) buttonAccount.getScene().getWindow();
-                            stage.close();
+                if (Controller.checkEmail(fieldEmail.getText())) {
+                    if (Controller.checkLogin(fieldLogin.getText(), (Stage) buttonAccount.getScene().getWindow())) {
+                        if (Controller.checkPassword(fieldPasswordOne.getText(), (Stage) buttonAccount.getScene().getWindow())) {
+                            if (Controller.checkPasswords(fieldPasswordOne.getText(), fieldPasswordTwo.getText())) {
+                                Controller.addUser(fieldName.getText(), fieldSurname.getText(), fieldEmail.getText(),
+                                        fieldLogin.getText(), fieldPasswordTwo.getText());
+
+                                Stage stage = (Stage) buttonAccount.getScene().getWindow();
+                                stage.close();
+                            }
                         }
                     }
                 }

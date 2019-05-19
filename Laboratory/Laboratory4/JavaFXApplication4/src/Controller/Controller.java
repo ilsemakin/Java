@@ -17,6 +17,10 @@ import javafx.application.Platform;
 
 public class Controller {
 
+    public static void closeStage(Stage stage) {
+        stage.close();
+    }
+
     public static void read() {
         File input = new File("Accounts.txt");
         ArrayList<User> list = new ArrayList<>();
@@ -79,6 +83,8 @@ public class Controller {
     public static void checkUser(String login, String password) {
         if (DataBase.search(login, password) == null) {
             Alerts.User();
+        } else {
+            View.showUserStage();
         }
     }
 
@@ -125,6 +131,19 @@ public class Controller {
         } else {
             Alerts.Passwords();
             return false;
+        }
+    }
+
+    public static boolean checkFileds(String name, String surname, String email,
+            String login, String passwordOne, String passwordTwo) {
+
+        if (name.isEmpty() || surname.isEmpty() || email.isEmpty()
+                || login.isEmpty() || passwordOne.isEmpty() || passwordTwo.isEmpty()) {
+
+            Alerts.fields();
+            return false;
+        } else {
+            return true;
         }
     }
 

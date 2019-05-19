@@ -3,8 +3,8 @@ package View;
 import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import Controller.Controller;
 
 public class Alerts {
 
@@ -29,6 +29,16 @@ public class Alerts {
 
         alert.setHeaderText("Запись в базу данных завершилось с ошибками!");
         alert.setContentText(message);
+
+        alert.showAndWait();
+    }
+
+    public static void fields() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Информация");
+
+        alert.setHeaderText(null);
+        alert.setContentText("Все поля должны быть заполнены.");
 
         alert.showAndWait();
     }
@@ -60,15 +70,14 @@ public class Alerts {
         alert.setHeaderText(null);
         alert.setContentText("Логин уже используется. Попробуйте ввести другой.");
 
-         Optional<ButtonType> option = alert.showAndWait();
+        Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == ButtonType.CANCEL) {
-            stage.close();
+            Controller.closeStage(stage);
         }
-        
     }
 
-    public static void Password(Stage test) {
+    public static void Password(Stage stage) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Предупреждение");
 
@@ -81,7 +90,7 @@ public class Alerts {
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == ButtonType.CANCEL) {
-            test.close();
+            Controller.closeStage(stage);
         }
     }
 
