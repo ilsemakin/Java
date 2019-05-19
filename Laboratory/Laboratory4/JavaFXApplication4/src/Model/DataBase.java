@@ -4,15 +4,13 @@ import java.util.ArrayList;
 
 public class DataBase {
 
-    private static ArrayList<User> users = new ArrayList<>();
+    private static final ArrayList<User> users = new ArrayList<>();
 
     public static void addUser(User user) {
-        if (checkLogin(user) && checkPassword(user)) {
-            users.add(user);
-        }
+        users.add(user);
     }
 
-    public static User find(String login, String password) {
+    public static User search(String login, String password) {
         for (User user : users) {
             if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
                 return user;
@@ -22,22 +20,18 @@ public class DataBase {
         return null;
     }
 
-    public static void show() {
+    public static ArrayList<User> getList() {
+        ArrayList<User> list = new ArrayList<>();
+
         users.forEach((user) -> {
-            System.out.println(user);
+            list.add(user);
         });
+
+        return list;
     }
 
-    private static boolean checkLogin(User userCheck) {
-        if (users.stream().noneMatch((user) -> (user.getLogin().equals(userCheck.getLogin())))) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private static boolean checkPassword(User userCheck) {
-        if (userCheck.getPassword().matches("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9@#$%]).{8,}")) {
+    public static boolean checkLogin(String login) {
+        if (users.stream().noneMatch((user) -> (user.getLogin().equals(login)))) {
             return true;
         }
 
