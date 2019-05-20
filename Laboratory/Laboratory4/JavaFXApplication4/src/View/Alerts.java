@@ -33,12 +33,22 @@ public class Alerts {
         alert.showAndWait();
     }
 
-    public static void fields() {
+    public static void Name() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Информация");
 
         alert.setHeaderText(null);
-        alert.setContentText("Все поля должны быть заполнены.");
+        alert.setContentText("Введите имя.");
+
+        alert.showAndWait();
+    }
+
+    public static void Surname() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Информация");
+
+        alert.setHeaderText(null);
+        alert.setContentText("Введите фамилию.");
 
         alert.showAndWait();
     }
@@ -63,12 +73,17 @@ public class Alerts {
         alert.showAndWait();
     }
 
-    public static void Login(Stage stage) {
+    public static void Login(Stage stage, String login) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Информация");
 
         alert.setHeaderText(null);
-        alert.setContentText("Логин уже используется. Попробуйте ввести другой.");
+
+        if (login.isEmpty()) {
+            alert.setContentText("Логин уже используется. Попробуйте ввести другой.");
+        } else {
+            alert.setContentText("Введите логин.");
+        }
 
         Optional<ButtonType> option = alert.showAndWait();
 
