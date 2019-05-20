@@ -80,12 +80,18 @@ public class Controller {
         View.showMainStage(primaryStage);
     }
 
-    public static void checkUser(String login, String password) {
-        if (DataBase.search(login, password) == null) {
+    public static void checkUser(String login, String password, Stage primaryStage) {
+        User user = DataBase.search(login, password);
+
+        if (user == null) {
             Alerts.User();
         } else {
-            View.showUserStage();
+            UserStage(primaryStage, user);
         }
+    }
+
+    private static void UserStage(Stage primaryStage, User user) {
+        View.showUserStage(primaryStage, user);
     }
 
     public static void addUser(String name, String surname, String email, String login, String password) {
@@ -96,62 +102,79 @@ public class Controller {
         View.registration(primaryStage);
     }
 
+    public static boolean checkName(String name) {
+        if (name.isEmpty()) {
+            Alerts.Name();
+            return false;
+        }
+
+        return true;
+    }
+    
+    public static void setName(User user, String name) {
+        user.setName(name);
+    }
+
+    public static boolean checkSurname(String surname) {
+        if (surname.isEmpty()) {
+            Alerts.Surname();
+            return false;
+        }
+
+        return true;
+    }
+    
+    public static void setSurname(User user, String surname) {
+        user.setSurname(surname);
+    }
+
     public static boolean checkEmail(String email) {
         if (email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
 
             return true;
-        } else {
-            Alerts.Email();
-            return false;
         }
+
+        Alerts.Email();
+        return false;
+    }
+    
+    public static void setEmail(User user, String email) {
+        user.setEmail(email);
     }
 
     public static boolean checkLogin(String login, Stage stage) {
-        if (DataBase.checkLogin(login)) {
+        if (DataBase.checkLogin(login) && !login.isEmpty()) {
             return true;
-        } else {
-            Alerts.Login(stage);
-            return false;
         }
+
+        Alerts.Login(stage, login);
+        return false;
     }
 
     public static boolean checkPassword(String password, Stage stage) {
         if (password.matches("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9@#$%]).{8,}")) {
             return true;
-        } else {
-            Alerts.Password(stage);
-            return false;
         }
+
+        Alerts.Password(stage);
+        return false;
     }
 
     public static boolean checkPasswords(String passwordOne, String passwordTwo) {
         if (passwordOne.equals(passwordTwo)) {
             return true;
-        } else {
-            Alerts.Passwords();
-            return false;
         }
-    }
 
-    public static boolean checkFileds(String name, String surname, String email,
-            String login, String passwordOne, String passwordTwo) {
-
-        if (name.isEmpty() || surname.isEmpty() || email.isEmpty()
-                || login.isEmpty() || passwordOne.isEmpty() || passwordTwo.isEmpty()) {
-
-            Alerts.fields();
-            return false;
-        } else {
-            return true;
-        }
+        Alerts.Passwords();
+        return false;
     }
 
     private static boolean checkPassword(String password) {
         if (password.matches("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9@#$%]).{8,}")) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 }
