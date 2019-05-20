@@ -3,6 +3,7 @@ package View;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import Controller.Controller;
+import Model.User;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.VBox;
@@ -11,16 +12,17 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ToggleButton;
 import javafx.stage.Modality;
 
 public class View {
 
     public static void showMainStage(Stage primaryStage) {
-
         VBox vbox = new VBox();
         vbox.setSpacing(10);
         vbox.setAlignment(Pos.CENTER);
-
+        
+        /*-------------------------Логин и пароль-----------------------------*/
         HBox hboxLogin = new HBox();
         hboxLogin.setAlignment(Pos.CENTER);
         hboxLogin.setSpacing(13);
@@ -34,31 +36,34 @@ public class View {
         PasswordField fieldPassword = new PasswordField();
         Label password = new Label("Пароль : ");
         hboxPassword.getChildren().addAll(password, fieldPassword);
+        /*--------------------------------------------------------------------*/
+        
+        vbox.getChildren().addAll(hboxLogin, hboxPassword);
 
         /*---------------------------Кнопки-----------------------------------*/
-        HBox loginAndRegistration = new HBox();
-        loginAndRegistration.setAlignment(Pos.CENTER);
-        loginAndRegistration.setSpacing(28);
+        HBox hboxButtons = new HBox();
+        hboxButtons.setAlignment(Pos.CENTER);
+        hboxButtons.setSpacing(28);
+        
+        Button signIn = new Button();
+        signIn.setPrefSize(90, 10);
+        signIn.setText("Войти");
 
-        Button buttonAccount = new Button();
-        buttonAccount.setPrefSize(90, 10);
-        buttonAccount.setText("Войти");
+        Button signUp = new Button();
+        signUp.setPrefSize(90, 10);
+        signUp.setText("Регистрация");
 
-        Button buttonRegistration = new Button();
-        buttonRegistration.setPrefSize(90, 10);
-        buttonRegistration.setText("Регистрация");
-
-        loginAndRegistration.getChildren().addAll(buttonAccount, buttonRegistration);
+        hboxButtons.getChildren().addAll(signIn, signUp);
         /*--------------------------------------------------------------------*/
 
-        vbox.getChildren().addAll(hboxLogin, hboxPassword, loginAndRegistration);
+        vbox.getChildren().add(hboxButtons);
 
         /*--------------------Действие по нажитию кнопки----------------------*/
-        buttonAccount.setOnAction((ActionEvent e) -> {
-            Controller.checkUser(fieldLogin.getText(), fieldPassword.getText());
+        signIn.setOnAction((ActionEvent e) -> {
+            Controller.checkUser(fieldLogin.getText(), fieldPassword.getText(), primaryStage);
         });
 
-        buttonRegistration.setOnAction((ActionEvent e) -> {
+        signUp.setOnAction((ActionEvent e) -> {
             Controller.registration(primaryStage);
         });
         /*--------------------------------------------------------------------*/
@@ -69,8 +74,150 @@ public class View {
         primaryStage.show();
     }
 
-    public static void showUserStage() {
-        
+    public static void showUserStage(Stage primaryStage, User user) {
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+        vbox.setAlignment(Pos.CENTER);
+
+        /*----------------------Редактирование имени--------------------------*/
+        HBox formName = new HBox();
+        formName.setAlignment(Pos.CENTER);
+        formName.setSpacing(35);
+
+        HBox hboxName = new HBox();
+        hboxName.setAlignment(Pos.CENTER);
+        hboxName.setSpacing(60);
+
+        TextField fieldName = new TextField();
+        fieldName.setEditable(false);
+        fieldName.setText(user.getName());
+
+        Label labelName = new Label("Имя : ");
+
+        ToggleButton editName = new ToggleButton();
+        editName.setText("Редактировать");
+
+        hboxName.getChildren().addAll(labelName, fieldName);
+
+        editName.setOnAction((ActionEvent e) -> {
+            if (editName.isSelected()) {
+                fieldName.setEditable(true);
+            } else {
+                if (Controller.checkName(fieldName.getText())) {
+                    Controller.setName(user, fieldName.getText());
+                }
+                fieldName.setEditable(false);
+            }
+        });
+
+        formName.getChildren().addAll(hboxName, editName);
+        /*--------------------------------------------------------------------*/
+
+        vbox.getChildren().add(formName);
+
+        /*---------------------Редактирование фамилии-------------------------*/
+        HBox formSurname = new HBox();
+        formSurname.setAlignment(Pos.CENTER);
+        formSurname.setSpacing(35);
+
+        HBox hboxSurname = new HBox();
+        hboxSurname.setAlignment(Pos.CENTER);
+        hboxSurname.setSpacing(35);
+
+        TextField fieldSurname = new TextField();
+        fieldSurname.setEditable(false);
+        fieldSurname.setText(user.getSurname());
+
+        Label labelSurname = new Label("Фамилия : ");
+
+        hboxSurname.getChildren().addAll(labelSurname, fieldSurname);
+
+        ToggleButton editSurname = new ToggleButton();
+        editSurname.setText("Редактировать");
+
+        editSurname.setOnAction((ActionEvent e) -> {
+            if (editSurname.isSelected()) {
+                fieldSurname.setEditable(true);
+            } else {
+                if (Controller.checkSurname(fieldSurname.getText())) {
+                    Controller.setSurname(user, fieldSurname.getText());
+                }
+                fieldSurname.setEditable(false);
+            }
+        });
+
+        formSurname.getChildren().addAll(hboxSurname, editSurname);
+        /*--------------------------------------------------------------------*/
+
+        vbox.getChildren().add(formSurname);
+
+        /*------------------Редактирование электронной почты------------------*/
+        HBox formEmail = new HBox();
+        formEmail.setAlignment(Pos.CENTER);
+        formEmail.setSpacing(35);
+
+        HBox hboxEmail = new HBox();
+        hboxEmail.setAlignment(Pos.CENTER);
+        hboxEmail.setSpacing(49);
+
+        TextField fieldEmail = new TextField();
+        fieldEmail.setEditable(false);
+        fieldEmail.setText(user.getEmail());
+
+        Label labelEmail = new Label("Почта : ");
+        hboxEmail.getChildren().addAll(labelEmail, fieldEmail);
+
+        ToggleButton editEmail = new ToggleButton();
+        editEmail.setText("Редактировать");
+
+        editEmail.setOnAction((ActionEvent e) -> {
+            if (editEmail.isSelected()) {
+                fieldEmail.setEditable(true);
+            } else {
+                if (Controller.checkEmail(fieldEmail.getText())) {
+                    Controller.setEmail(user, fieldEmail.getText());
+                }
+                fieldEmail.setEditable(false);
+            }
+        });
+
+        formEmail.getChildren().addAll(hboxEmail, editEmail);
+        /*--------------------------------------------------------------------*/
+
+        vbox.getChildren().add(formEmail);
+
+        /*---------------------------Кнопки-----------------------------------*/
+        HBox hboxButtons = new HBox();
+        hboxButtons.setAlignment(Pos.CENTER);
+        hboxButtons.setSpacing(28);
+
+        Button logout = new Button();
+        logout.setPrefSize(175, 10);
+        logout.setText("Выйти из личного кабинета");
+
+        Button exit = new Button();
+        exit.setPrefSize(175, 10);
+        exit.setText("Выход");
+
+        hboxButtons.getChildren().addAll(logout, exit);
+        /*--------------------------------------------------------------------*/
+
+        vbox.getChildren().addAll(hboxButtons);
+
+        /*--------------------Действие по нажитию кнопки----------------------*/
+        logout.setOnAction((ActionEvent e) -> {
+            Controller.init(primaryStage);
+        });
+
+        exit.setOnAction((ActionEvent e) -> {
+            Controller.closeStage(primaryStage);
+        });
+        /*--------------------------------------------------------------------*/
+
+        primaryStage.setTitle("Личный кабинет");
+        Scene scene = new Scene(vbox, 500, 500);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void registration(Stage primaryStage) {
@@ -129,36 +276,38 @@ public class View {
         vbox.getChildren().addAll(hboxLogin, hboxPasswordOne, hboxPasswordTwo);
 
         /*---------------------------Кнопка-----------------------------------*/
-        HBox loginAndRegistration = new HBox();
-        loginAndRegistration.setAlignment(Pos.CENTER);
-        loginAndRegistration.setSpacing(28);
-        Button buttonAccount = new Button();
-        buttonAccount.setPrefSize(130, 10);
-        buttonAccount.setText("Зарегистрироваться");
-        loginAndRegistration.getChildren().addAll(buttonAccount);
-
-        vbox.getChildren().add(loginAndRegistration);
+        HBox hboxButton = new HBox();
+        hboxButton.setAlignment(Pos.CENTER);
+        hboxButton.setSpacing(28);
+        Button createAccount = new Button();
+        createAccount.setPrefSize(130, 10);
+        createAccount.setText("Зарегистрироваться");
+        hboxButton.getChildren().addAll(createAccount);
         /*--------------------------------------------------------------------*/
 
-        buttonAccount.setOnAction((ActionEvent e) -> {
-            if (Controller.checkFileds(fieldName.getText(), fieldSurname.getText(), fieldEmail.getText(),
-                    fieldLogin.getText(), fieldPasswordOne.getText(), fieldPasswordTwo.getText())) {
+        vbox.getChildren().add(hboxButton);
 
-                if (Controller.checkEmail(fieldEmail.getText())) {
-                    if (Controller.checkLogin(fieldLogin.getText(), (Stage) buttonAccount.getScene().getWindow())) {
-                        if (Controller.checkPassword(fieldPasswordOne.getText(), (Stage) buttonAccount.getScene().getWindow())) {
-                            if (Controller.checkPasswords(fieldPasswordOne.getText(), fieldPasswordTwo.getText())) {
-                                Controller.addUser(fieldName.getText(), fieldSurname.getText(), fieldEmail.getText(),
-                                        fieldLogin.getText(), fieldPasswordTwo.getText());
+        /*--------------------Действие по нажитию кнопки----------------------*/
+        createAccount.setOnAction((ActionEvent e) -> {
+            if (Controller.checkName(fieldName.getText())) {
+                if (Controller.checkSurname(fieldSurname.getText())) {
+                    if (Controller.checkEmail(fieldEmail.getText())) {
+                        if (Controller.checkLogin(fieldLogin.getText(), (Stage) createAccount.getScene().getWindow())) {
+                            if (Controller.checkPassword(fieldPasswordOne.getText(), (Stage) createAccount.getScene().getWindow())) {
+                                if (Controller.checkPasswords(fieldPasswordOne.getText(), fieldPasswordTwo.getText())) {
+                                    Controller.addUser(fieldName.getText(), fieldSurname.getText(), fieldEmail.getText(),
+                                            fieldLogin.getText(), fieldPasswordTwo.getText());
 
-                                Stage stage = (Stage) buttonAccount.getScene().getWindow();
-                                stage.close();
+                                    Stage stage = (Stage) createAccount.getScene().getWindow();
+                                    stage.close();
+                                }
                             }
                         }
                     }
                 }
             }
         });
+        /*--------------------------------------------------------------------*/
 
         Scene scene = new Scene(vbox, 500, 500);
 
