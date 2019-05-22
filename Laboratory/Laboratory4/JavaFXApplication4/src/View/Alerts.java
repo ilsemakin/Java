@@ -80,9 +80,9 @@ public class Alerts {
         alert.setHeaderText(null);
 
         if (login.isEmpty()) {
-            alert.setContentText("Логин уже используется. Попробуйте ввести другой.");
-        } else {
             alert.setContentText("Введите логин.");
+        } else {
+            alert.setContentText("Логин уже используется. Попробуйте ввести другой.");
         }
 
         Optional<ButtonType> option = alert.showAndWait();
