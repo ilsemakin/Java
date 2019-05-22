@@ -10,6 +10,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ToggleButton;
@@ -18,9 +21,24 @@ import javafx.stage.Modality;
 public class View {
 
     public static void showMainStage(Stage primaryStage) {
+        VBox vboxMain = new VBox();
+        vboxMain.setSpacing(170);
+
+        /*---------------------------Меню-------------------------------------*/
+        MenuBar menuBar = new MenuBar();
+        Menu menu = new Menu("Меню");
+        MenuItem exit = new MenuItem("Выход");
+
+        menu.getItems().add(exit);
+        menuBar.getMenus().add(menu);
+
+        exit.setOnAction((e) -> {
+            Controller.closeStage(primaryStage);
+        });
+        /*--------------------------------------------------------------------*/
+
         VBox vbox = new VBox();
         vbox.setSpacing(10);
-        vbox.setAlignment(Pos.CENTER);
         
         /*-------------------------Логин и пароль-----------------------------*/
         HBox hboxLogin = new HBox();
@@ -37,14 +55,14 @@ public class View {
         Label password = new Label("Пароль : ");
         hboxPassword.getChildren().addAll(password, fieldPassword);
         /*--------------------------------------------------------------------*/
-        
+
         vbox.getChildren().addAll(hboxLogin, hboxPassword);
 
         /*---------------------------Кнопки-----------------------------------*/
         HBox hboxButtons = new HBox();
         hboxButtons.setAlignment(Pos.CENTER);
         hboxButtons.setSpacing(28);
-        
+
         Button signIn = new Button();
         signIn.setPrefSize(90, 10);
         signIn.setText("Войти");
@@ -68,8 +86,11 @@ public class View {
         });
         /*--------------------------------------------------------------------*/
 
+        vboxMain.getChildren().addAll(menuBar, vbox);
+
         primaryStage.setTitle("Вход в аккаунт");
-        Scene scene = new Scene(vbox, 500, 500);
+        Scene scene = new Scene(vboxMain, 500, 500);
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -215,6 +236,7 @@ public class View {
         /*--------------------------------------------------------------------*/
 
         primaryStage.setTitle("Личный кабинет");
+        primaryStage.setResizable(false);
         Scene scene = new Scene(vbox, 500, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -314,6 +336,7 @@ public class View {
         Stage secondaryStage = new Stage();
         secondaryStage.setTitle("Регистрация нового пользователя");
         secondaryStage.setScene(scene);
+        secondaryStage.setResizable(false);
         secondaryStage.initModality(Modality.WINDOW_MODAL);
         secondaryStage.initOwner(primaryStage);
 
